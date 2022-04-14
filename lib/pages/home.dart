@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zip_code_app/components/Footer/footer_component.dart';
 import 'package:zip_code_app/pages/components/bottom_sheet_result_component.dart';
+import 'package:zip_code_app/services/zip_code_service.dart';
 import 'package:zip_code_app/shared/styles.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +14,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void submitSearch(BuildContext context) {}
+  final TextEditingController _searchInputController = TextEditingController();
+  bool _isLoading = false;
+
+  void submitSearch(BuildContext context, String searchZipValue) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            height: MediaQuery.maybeOf(context)!.size.height * 0.1,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(top: 15),
+            child: Column(
+              children: [
+                CircularProgressIndicator(
+                  backgroundColor: Colors.grey,
+                  color: Styles.primaryColor,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text('Aguarde...'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    var zipCodeResponse = await ZipCodeService().searchZipCode(searchZipValue);
+    Navigator.pop(context);
+
+    showResult(context);
+  }
 
   void showResult(BuildContext context) {
     showModalBottomSheet<void>(
@@ -65,8 +98,9 @@ class _HomePageState extends State<HomePage> {
                     right: MediaQuery.of(context).size.width * 0.2,
                   ),
                   child: TextFormField(
+                    controller: _searchInputController,
                     onFieldSubmitted: (value) {
-                      print(value);
+                      submitSearch(context, _searchInputController.value.text);
                     },
                     maxLength: 8,
                     inputFormatters: <TextInputFormatter>[
@@ -83,7 +117,10 @@ class _HomePageState extends State<HomePage> {
                       suffixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: InkWell(
-                          onTap: () => {showResult(context)},
+                          onTap: () {
+                            submitSearch(
+                                context, _searchInputController.value.text);
+                          },
                           child: Icon(
                             Icons.search,
                             color: Styles.primaryColor,
