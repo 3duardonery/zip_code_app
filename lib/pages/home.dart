@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zip_code_app/components/Footer/footer_component.dart';
+import 'package:zip_code_app/models/zipcode_model.dart';
 import 'package:zip_code_app/pages/components/bottom_sheet_result_component.dart';
 import 'package:zip_code_app/services/zip_code_service.dart';
 import 'package:zip_code_app/shared/styles.dart';
@@ -15,7 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchInputController = TextEditingController();
-  bool _isLoading = false;
 
   void submitSearch(BuildContext context, String searchZipValue) async {
     showDialog(
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Text('Aguarde...'),
+                const Text('CONSULTANDO CEP...'),
               ],
             ),
           ),
@@ -43,16 +43,17 @@ class _HomePageState extends State<HomePage> {
       },
     );
     var zipCodeResponse = await ZipCodeService().searchZipCode(searchZipValue);
+
     Navigator.pop(context);
 
-    showResult(context);
+    showResult(context, zipCodeResponse);
   }
 
-  void showResult(BuildContext context) {
+  void showResult(BuildContext context, Zipcode zipcode) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return const BottomSheetResultComponent();
+        return BottomSheetResultComponent(zipcode);
       },
     );
   }
