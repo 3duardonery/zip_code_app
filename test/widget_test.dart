@@ -8,23 +8,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:zip_code_app/main.dart';
+import 'package:zip_code_app/pages/home.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+  });
+  testWidgets('Home page have a Title', (WidgetTester tester) async {
+    // Arrange
+    Widget testWidget = const MediaQuery(
+      data: MediaQueryData(),
+      child: MaterialApp(
+        home: HomePage(),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Act
+    await tester.pumpWidget(testWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    final titleFinder = find.text('CONSULTAR CEP');
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Assert
+    expect(titleFinder, findsOneWidget);
+  });
+
+  testWidgets('Home page have a InputSearch', (WidgetTester tester) async {
+    // Arrange
+    Widget testWidget = const MediaQuery(
+      data: MediaQueryData(),
+      child: MaterialApp(
+        home: HomePage(),
+      ),
+    );
+
+    // Act
+    await tester.pumpWidget(testWidget);
+
+    final titleFinder = find.byKey(const Key('inputSearch'));
+
+    // Assert
+    expect(titleFinder, findsOneWidget);
+  });
+
+  testWidgets('Home page have a ButtonSearch', (WidgetTester tester) async {
+    // Arrange
+    Widget testWidget = const MediaQuery(
+      data: MediaQueryData(),
+      child: MaterialApp(
+        home: HomePage(),
+      ),
+    );
+
+    // Act
+    await tester.pumpWidget(testWidget);
+
+    final titleFinder = find.byKey(const Key('buttonSearch'));
+
+    // Assert
+    expect(titleFinder, findsOneWidget);
   });
 }

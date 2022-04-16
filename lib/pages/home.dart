@@ -99,6 +99,7 @@ class _HomePageState extends State<HomePage> {
                     right: MediaQuery.of(context).size.width * 0.2,
                   ),
                   child: TextFormField(
+                    key: const Key('inputSearch'),
                     controller: _searchInputController,
                     onFieldSubmitted: (value) {
                       submitSearch(context, _searchInputController.value.text);
@@ -118,6 +119,7 @@ class _HomePageState extends State<HomePage> {
                       suffixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: InkWell(
+                          key: const Key('buttonSearch'),
                           onTap: () {
                             submitSearch(
                                 context, _searchInputController.value.text);
@@ -161,7 +163,7 @@ class _HomePageState extends State<HomePage> {
             bottom: 10,
             right: 100,
             width: MediaQuery.of(context).size.width * 0.3,
-            child: SvgPicture.asset('images/location.svg'),
+            child: SvgPicture.asset('assets/images/location.svg'),
           ),
         ],
       ),
