@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'package:zip_code_app/pages/home.dart';
 import 'package:zip_code_app/shared/styles.dart';
 
 void main() {
+  setPathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -16,7 +18,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Styles.primaryColor,
       ),
-      home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+      },
+      onUnknownRoute: (routeSettings) => MaterialPageRoute(
+        builder: (context) => const HomePage(),
+        settings: routeSettings,
+      ),
     );
   }
 }
