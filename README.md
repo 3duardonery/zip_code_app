@@ -1,6 +1,7 @@
 # zip_code_app
 
 A new Flutter project.
+![Build](https://github.com/3duardonery/zip_code_app/actions/workflows/dart/badge.svg)
 
 ## Getting Started
 
