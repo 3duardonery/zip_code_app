@@ -7,12 +7,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:zip_code_app/pages/home.dart';
+import 'package:zip_code_app/services/zip_code_service.dart';
+import 'package:zip_code_app/services/zip_code_service_imp.dart';
 
 void main() {
   setUpAll(() {
     TestWidgetsFlutterBinding.ensureInitialized();
+    GetIt.instance.registerSingleton<ZipCodeServiceImp>(ZipCodeService());
   });
   testWidgets('Home page have a Title', (WidgetTester tester) async {
     // Arrange
