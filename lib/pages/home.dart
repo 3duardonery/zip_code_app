@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:zip_code_app/components/Footer/footer_component.dart';
 import 'package:zip_code_app/models/zipcode_model.dart';
 import 'package:zip_code_app/pages/components/bottom_sheet_result_component.dart';
-import 'package:zip_code_app/services/zip_code_service.dart';
 import 'package:zip_code_app/shared/styles.dart';
+
+import '../services/zip_code_service_imp.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchInputController = TextEditingController();
+  final zipCodeService = GetIt.I<ZipCodeServiceImp>();
 
   void submitSearch(BuildContext context, String searchZipValue) async {
     showDialog(
@@ -42,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-    var zipCodeResponse = await ZipCodeService().searchZipCode(searchZipValue);
+    var zipCodeResponse = await zipCodeService.searchZipCode(searchZipValue);
 
     Navigator.pop(context);
 
